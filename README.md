@@ -1,6 +1,6 @@
 # HarmonizedTariff
 
-TODO: Write a gem description
+A utility for converting the Harmonized Tariff Schedule from hts.usitc.gov to JSON, SQL, and XML.
 
 ## Installation
 
@@ -18,7 +18,9 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+    $ bundle exec bin/hts --json
+    $ bundle exec bin/hts --xml
+    $ bundle exec bin/hts --sql
 
 ## Contributing
 
