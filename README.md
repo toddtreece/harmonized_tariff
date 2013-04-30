@@ -18,7 +18,28 @@ Or install it yourself as:
 
 ## Usage
 
-    $ bundle exec bin/hts --type json
+    $ bundle exec bin/hts --help
+    Usage: bundle exec bin/hts [options]
+
+    Specific options:
+        -s, --source [PATH]              Set source file
+        -o, --output [PATH]              Set destination folder path
+            --type [TYPE]                Select output format (json, xml, sql, gz (gzipped sql))
+        -v, --verbose                    Print output to screen
+
+    Common options:
+        -h, --help                       Show this message
+            --version                    Show version
+
+**Example 1:** use the provided source file (2013) and output it as gzipped SQL to the Desktop
+
+    $ bundle exec bin/hts --output ~/Desktop --type gz
+    Outputting converted XML to: /Users/todd/Desktop/hts.gz
+
+**Example 2:** use a different source file (2012) and output it as XML to the Desktop
+
+    $ bundle exec bin/hts --source ~/Desktop/1201_HTS_delimited.txt --output ~/Desktop --type xml
+    Outputting converted XML to: /Users/todd/Desktop/hts.xml
 
 ## Contributing
 

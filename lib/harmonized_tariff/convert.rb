@@ -140,6 +140,11 @@ module HarmonizedTariff
 
         current[:number], current[:suffix], level, current[:description], current[:unit], current[:col1_rate], current[:special_rate], current[:col2_rate], current[:note] = @raw[index]
 
+        if level.nil?
+          index += 1
+          next
+        end
+
         if level.to_i == depth
           index += 1
           siblings.push self.build_heirarchy(current, depth + 1, index)

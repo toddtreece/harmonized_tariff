@@ -22,7 +22,7 @@ module HarmonizedTariff
         opts.separator "Specific options:"
 
         opts.on("-s", "--source [PATH]", "Set source file") do |source|
-          hts.path = source || hts.path
+          hts.source = source || hts.source
         end
 
         opts.on("-o", "--output [PATH]", "Set destination folder path") do |path|
