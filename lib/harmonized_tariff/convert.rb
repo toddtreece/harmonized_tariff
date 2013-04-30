@@ -31,7 +31,7 @@ module HarmonizedTariff
               CREATE TABLE `harmonized_tariffs` (
                 `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
                 `code` varchar(255) NOT NULL DEFAULT '',
-                `suffix` varchar(255) NOT NULL DEFAULT '',
+                `suffix` varchar(255) DEFAULT NULL,
                 `description` text,
                 `unit` varchar(255) DEFAULT NULL,
                 `rate_1` varchar(255) DEFAULT NULL,
