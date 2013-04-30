@@ -2,7 +2,6 @@ require "csv"
 require "json"
 require "active_support/core_ext"
 require "heredoc_unindent"
-require "active_record"
 
 module HarmonizedTariff
 
@@ -28,6 +27,7 @@ module HarmonizedTariff
     def toSQL
 
       sql = <<-SQL.unindent
+              -- create the table
               CREATE TABLE `harmonized_tariffs` (
                 `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
                 `code` varchar(255) NOT NULL DEFAULT '',
@@ -41,11 +41,14 @@ module HarmonizedTariff
                 PRIMARY KEY (`id`),
                 KEY `tariff` (`code`)
               ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+              -- insert the flattened data
             SQL
 
       @data.each do |child|
         sql << self.buildSQL(child)
       end
+
+      return sql
 
     end
 
@@ -57,15 +60,13 @@ module HarmonizedTariff
         sql << self.sqlRow(parent)
       end
 
-      return sql
-
       if parent[:children].nil?
         return sql
       end
 
       parent[:children].each do |child|
 
-        child[:description] = parent[:description] + child[:description]
+        child[:description] = parent[:description] + ' ' + child[:description]
 
         sql << self.buildSQL(child)
 
@@ -77,18 +78,40 @@ module HarmonizedTariff
 
     def sqlRow(row)
 
+      clean = Hash.new
+
+      row.each do |k,v|
+
+        if k == :children
+          next
+        end
+
+        if v.nil?
+          clean[k] = 'NULL'
+        else
+          clean[k] = "'" + self.escape(v) + "'"
+        end
+
+      end
+
       sql = <<-SQL.unindent
               INSERT INTO `harmonized_tariffs` (`id`, `code`, `suffix`, `description`, `unit`, `rate_1`, `special_rate`, `rate_2`, `notes`)
-              VALUES (NULL, ?, ?, ?, ?, ? ?, ?)
+              VALUES (NULL, #{clean[:number]}, #{clean[:suffix]}, #{clean[:description]}, #{clean[:unit]}, #{clean[:col1_rate]}, #{clean[:special_rate]}, #{clean[:col2_rate]}, #{clean[:note]});
             SQL
 
-      dirty = [sql, row[:number], row[:suffix], row[:description], row[:unit], row[:col1_rate], row[:special_rate], row[:col2_rate], row[:note]]
 
-      clean = sanitize_sql_array(dirty)
+      return sql
 
-      puts clean
+    end
 
-      return clean
+    def escape(text)
+
+      text = text.gsub(/'/) {|s| "\\'"}
+      text = text.gsub(/"/) {|s| "\""}
+      text = text.gsub(/\\/) {|s| "\\"}
+
+      return text
+
     end
 
     def load
