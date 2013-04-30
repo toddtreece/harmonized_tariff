@@ -34,7 +34,7 @@ Or install it yourself as:
 **Example 1:** use the provided source file (2013) and output it as gzipped SQL to the Desktop
 
     $ bundle exec bin/hts --output ~/Desktop --type gz
-    Outputting converted XML to: /Users/todd/Desktop/hts.gz
+    Outputting converted gzipped SQL to: /Users/todd/Desktop/hts.gz
 
 **Example 2:** use a different source file (2012) and output it as XML to the Desktop
 
