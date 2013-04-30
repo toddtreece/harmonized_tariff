@@ -2,7 +2,7 @@ require "csv"
 require "json"
 require "active_support/core_ext"
 require "heredoc_unindent"
-require "activerecord"
+require "active_record"
 
 module HarmonizedTariff
 
@@ -63,7 +63,7 @@ module HarmonizedTariff
         return sql
       end
 
-      parent[:children] each do |child|
+      parent[:children].each do |child|
 
         child[:description] = parent[:description] + child[:description]
 
