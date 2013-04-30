@@ -1,5 +1,6 @@
 require 'optparse'
 require 'optparse/time'
+require 'zlib'
 
 module HarmonizedTariff
 
@@ -28,7 +29,7 @@ module HarmonizedTariff
           @@destination = path || destination
         end
 
-        opts.on("--type [TYPE]", "Select output format (json, xml, sql)") do |t|
+        opts.on("--type [TYPE]", "Select output format (json, xml, sql, gz (gzipped sql))") do |t|
           @@type = t.downcase
         end
 
@@ -62,6 +63,8 @@ module HarmonizedTariff
         self.output hts.toXML
       elsif @@type == 'sql'
         self.output hts.toSQL
+      elsif @@type == 'gz'
+        self.gzip hts.toSQL
       end
 
     end
@@ -73,11 +76,25 @@ module HarmonizedTariff
       puts 'Outputting converted ' + @@type.upcase + ' to: ' + path + "\n"
 
       target = File.new(path, 'w')
-      target.write(data)
+      target.write data
       target.close
 
       if @@verbose
         puts data
+      end
+
+    end
+
+    def self.gzip(data)
+
+      path = File.absolute_path(@@destination) + File::SEPARATOR + 'hts.' + @@type
+
+      puts 'Outputting converted gzipped SQL to: ' + path + "\n"
+
+      File.open(path, 'w') do |f|
+        gz = Zlib::GzipWriter.new(f)
+        gz.write data
+        gz.close
       end
 
     end
