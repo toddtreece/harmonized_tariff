@@ -1,16 +1,15 @@
 require 'optparse'
 require 'optparse/time'
-require 'ostruct'
 
 module HarmonizedTariff
 
   class CLI
 
-    def self.parse(args)
+    @@type = 'json'
+    @@verbose = false
+    @@destination = 'data/'
 
-      output = :json
-      dump = false
-      destination = 'data/'
+    def self.parse(args)
 
       hts = HarmonizedTariff::Convert.new
 
@@ -25,16 +24,16 @@ module HarmonizedTariff
           hts.path = source || hts.path
         end
 
-        opts.on("-o", "--output [PATH]", "Set destination path") do |path|
-          destination = path || destination
+        opts.on("-o", "--output [PATH]", "Set destination folder path") do |path|
+          @@destination = path || destination
         end
 
-        opts.on("--type [TYPE]", [:json, :xml, :sql], "Select output format (json, xml, sql)") do |t|
-          output = t
+        opts.on("--type [TYPE]", "Select output format (json, xml, sql)") do |t|
+          @@type = t.downcase
         end
 
         opts.on("-v", "--verbose", "Print output to screen") do |d|
-          dump = d
+          @@verbose = d
         end
 
         opts.separator ""
@@ -57,42 +56,28 @@ module HarmonizedTariff
       # parse the file
       hts.load
 
-      if output == :json
+      if @@type == 'json'
+        self.output hts.toJSON
+      elsif @@type == 'xml'
+        self.output hts.toXML
+      elsif @@type == 'sql'
+        self.output hts.toSQL
+      end
 
-        json = hts.toJSON
+    end
 
-        target = File.new(destination + 'hts.json', 'w')
-        target.write(json)
-        target.close
+    def self.output(data)
 
-        if dump
-          puts json
-        end
+      path = File.absolute_path(@@destination) + File::SEPARATOR + 'hts.' + @@type
 
-      elsif output == :xml
+      puts 'Outputting converted ' + @@type.upcase + ' to: ' + path + "\n"
 
-        xml = hts.toXML
+      target = File.new(path, 'w')
+      target.write(data)
+      target.close
 
-        target = File.new(destination + 'hts.xml', 'w')
-        target.write(xml)
-        target.close
-
-        if dump
-          puts xml
-        end
-
-      elsif output == :sql
-
-        sql = hts.toSQL
-
-        target = File.new(destination + 'hts.sql', 'w')
-        target.write(sql)
-        target.close
-
-        if dump
-          puts sql
-        end
-
+      if @@verbose
+        puts data
       end
 
     end

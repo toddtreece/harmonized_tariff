@@ -1,3 +1,4 @@
+HTS No.|Stat Suffix|Level|Description|Unit of Quantity|Col. 1 Rate|Special Rate|Col. 2 Rate|Footnote / Comment
 0101||0|Live horses, asses, mules and hinnies:|||||
 ||1|Horses:|||||
 0101.21.00||2|Purebred breeding animals||Free||Free|

@@ -1,6 +1,6 @@
 # HarmonizedTariff
 
-A utility for converting the Harmonized Tariff Schedule from hts.usitc.gov to JSON, SQL, and XML.
+A utility for converting the Harmonized Tariff Schedule from [hts.usitc.gov](http://www.usitc.gov/tata/hts/_1300_delimited.htm) to JSON, SQL, and XML.
 
 ## Installation
 
@@ -18,9 +18,7 @@ Or install it yourself as:
 
 ## Usage
 
-    $ bundle exec bin/hts --json
-    $ bundle exec bin/hts --xml
-    $ bundle exec bin/hts --sql
+    $ bundle exec bin/hts --type json
 
 ## Contributing
 
