@@ -18,7 +18,7 @@ Or install it yourself as:
 
 ## Usage
 
-    $ bundle exec bin/hts --help
+    $ hts --help
     Usage: bundle exec bin/hts [options]
 
     Specific options:
@@ -33,12 +33,12 @@ Or install it yourself as:
 
 **Example 1:** use the provided source file ([2013](http://www.usitc.gov/tata/hts/_1300_delimited.htm)) and output it as gzipped SQL to the Desktop
 
-    $ bundle exec bin/hts --output ~/Desktop --type gz
+    $ hts --output ~/Desktop --type gz
     Outputting converted gzipped SQL to: /Users/todd/Desktop/hts.gz
 
 **Example 2:** use a different source file ([2012](http://www.usitc.gov/tata/hts/_1201_delimited.htm)) and output it as XML to the Desktop
 
-    $ bundle exec bin/hts --source ~/Desktop/1201_HTS_delimited.txt --output ~/Desktop --type xml
+    $ hts --source ~/Desktop/1201_HTS_delimited.txt --output ~/Desktop --type xml
     Outputting converted XML to: /Users/todd/Desktop/hts.xml
 
 ## Contributing
