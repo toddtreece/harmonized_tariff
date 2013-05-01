@@ -8,7 +8,7 @@ module HarmonizedTariff
 
     @@type = 'json'
     @@verbose = false
-    @@destination = 'data/'
+    @@destination = '~/'
 
     def self.parse(args)
 
@@ -87,7 +87,7 @@ module HarmonizedTariff
 
     def self.gzip(data)
 
-      path = File.absolute_path(@@destination) + File::SEPARATOR + 'hts.' + @@type
+      path = File.expand_path(@@destination) + File::SEPARATOR + 'hts.' + @@type
 
       puts 'Outputting converted gzipped SQL to: ' + path + "\n"
 
