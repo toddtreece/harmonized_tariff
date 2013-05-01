@@ -10,10 +10,15 @@ module HarmonizedTariff
     attr_accessor :source, :encoding, :delimeter
 
     def initialize
-      @source = 'data/1300_HTS_delimited.txt'
+
+      spec = Gem::Specification.find_by_name("harmonized_tariff")
+      gem_root = spec.gem_dir
+
+      @source = gem_root + '/data/1300_HTS_delimited.txt'
       @encoding = 'ISO8859-1'
       @delimeter = '|'
       @raw = Array.new
+
     end
 
     def toJSON
